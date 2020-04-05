@@ -1,0 +1,9 @@
+*cache
+*.pre
+*.pdf
+*.docx
+*.mkdocs
+*.mkdocs.src
+*.log
+*.DS_Store
+.idea

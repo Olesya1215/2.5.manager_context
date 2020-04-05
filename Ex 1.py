@@ -21,32 +21,35 @@ def timer():
         print(execution)
 
 
-def get_shop_list_by_dishes(dishes, person_count):
+def read_recipes():
     cook_book = {}
+    with open("recipes.txt") as f:
+        while True:
+            dish_name = f.readline().strip()
+            ingredient_list = []
+            if not dish_name:
+                break
+            number_of_ingredients = f.readline().strip("\r\n").strip()
+            if number_of_ingredients:
+                int_number_of_ingredients = int(number_of_ingredients)
+            for ingredient in range(int_number_of_ingredients):
+                ingredient_list.append(f.readline().strip().split("|"))
+            f.readline()
 
-    def read_recipes():
-        with open("recipes.txt") as f:
-            while True:
-                dish_name = f.readline().strip()
-                ingredient_list = []
-                if not dish_name:
-                    break
-                number_of_ingredients = f.readline().strip("\r\n").strip()
-                if number_of_ingredients:
-                    int_number_of_ingredients = int(number_of_ingredients)
-                for ingredient in range(int_number_of_ingredients):
-                    ingredient_list.append(f.readline().strip().split("|"))
-                f.readline()
 
-                ingr_list = []
-                for ingr in ingredient_list:
-                    ingr_dict = {}
-                    ingr_dict["ingredient_name"] = ingr[0].strip()
-                    ingr_dict["quantity"] = ingr[1].strip()
-                    ingr_dict["measure"] = ingr[2].strip()
-                    ingr_list.append(ingr_dict)
-                cook_book[dish_name] = ingr_list
-    read_recipes()
+            ingr_list = []
+            for ingr in ingredient_list:
+                ingr_dict = {}
+                ingr_dict["ingredient_name"] = ingr[0].strip()
+                ingr_dict["quantity"] = ingr[1].strip()
+                ingr_dict["measure"] = ingr[2].strip()
+                ingr_list.append(ingr_dict)
+            cook_book[dish_name] = ingr_list
+    return cook_book
+
+
+def get_shop_list_by_dishes(dishes, person_count):
+    cook_book = read_recipes()
     dictionary_of_ingredients = {}
     for dish in dishes:
         try:
